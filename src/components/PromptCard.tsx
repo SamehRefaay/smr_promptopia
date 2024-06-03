@@ -8,13 +8,12 @@ import { useSession } from 'next-auth/react';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-const PromptCard = ({
-	post,
-	handleTagClicked,
-}: {
+interface Props {
 	post: PostProps;
-	handleTagClicked: (tag: string) => void;
-}) => {
+	handleTagClicked?: (tag: string) => void;
+}
+
+const PromptCard = ({ post, handleTagClicked }: Props) => {
 	const [copied, setCopied] = useState('');
 	const { data: session }: any = useSession();
 	const pathname = usePathname();

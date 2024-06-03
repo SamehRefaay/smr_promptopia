@@ -4,7 +4,7 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 
 const ProfileInfo = ({ userId }: { userId: string }) => {
-	const [user, setUser] = useState<UserProps>();
+	const [user, setUser] = useState<any>();
 
 	const fetchUserData = async () => {
 		try {

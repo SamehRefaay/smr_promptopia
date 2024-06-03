@@ -1,9 +1,10 @@
 'use client';
 import Form from '@/components/Form';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 
 const UpdatePrompt = () => {
+	function editPrompt() {}
 	const router = useRouter();
 	const searchParams = useSearchParams();
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -59,4 +60,10 @@ const UpdatePrompt = () => {
 	);
 };
 
-export default UpdatePrompt;
+export default function EditPrompt() {
+	return (
+		<Suspense fallback={'Loading...'}>
+			<UpdatePrompt />
+		</Suspense>
+	);
+}

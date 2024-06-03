@@ -10,7 +10,6 @@ const Feed = () => {
 	const [searchTimeout, setSearchTimeout] = useState<any>();
 	const [searchedResult, setSearchedResult] = useState<PostProps[]>([]);
 
-	console.log(searchText);
 	const fetchPosts = async () => {
 		try {
 			const response = await fetch(`/api/prompt`, {
@@ -28,8 +27,6 @@ const Feed = () => {
 	useEffect(() => {
 		fetchPosts();
 	}, []);
-
-	console.log(allPosts);
 
 	const filterPosts = (searchText: string) => {
 		const regex = new RegExp(searchText, 'i');

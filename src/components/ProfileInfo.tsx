@@ -1,29 +1,35 @@
+'use client';
 import { UserProps } from '@/utils/types';
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-const fetchUserData = async (userId: string) => {
-	const response = await fetch(`${process.env.BASE_URL}/api/user/${userId}`, {
-		cache: 'no-store',
-	});
+const ProfileInfo = ({ userId }: { userId: string }) => {
+	const [user, setUser] = useState<UserProps>();
 
-	if (!response.ok) {
-		throw new Error('Something went wrong!');
-	}
-
-	return response.json();
-};
-
-const ProfileInfo = async ({ userId }: { userId: string }) => {
-	const user: UserProps = await fetchUserData(userId);
-
+	const fetchUserData = async () => {
+		try {
+			const response = await fetch(`/api/user/${userId}`, {
+				cache: 'no-store',
+			});
+			if (!response.ok) {
+				throw new Error('Failed to fetch data');
+			}
+			const data = await response.json();
+			setUser(data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+	useEffect(() => {
+		fetchUserData();
+	}, []);
 	return (
 		<div className="grid gap-5 grid-cols-1 md:grid-cols-3">
 			<div className="w-full p-5 shadow-md bg-white grid place-content-center">
 				<div className="text-center">
 					<Image
 						className="rounded-full mx-auto"
-						src={user.image}
+						src={user?.image}
 						alt="profile image"
 						width={200}
 						height={200}

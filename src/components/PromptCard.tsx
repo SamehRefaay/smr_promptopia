@@ -8,7 +8,13 @@ import { useSession } from 'next-auth/react';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-const PromptCard = ({ post }: { post: PostProps }) => {
+const PromptCard = ({
+	post,
+	handleTagClicked,
+}: {
+	post: PostProps;
+	handleTagClicked: (tag: string) => void;
+}) => {
 	const [copied, setCopied] = useState('');
 	const { data: session }: any = useSession();
 	const pathname = usePathname();
@@ -81,7 +87,12 @@ const PromptCard = ({ post }: { post: PostProps }) => {
 						? `${post.prompt.substring(0, 90)}...`
 						: post.prompt}
 				</p>
-				<p className="mt-3 text-sm text-blue-600 cursor-pointer">#{post.tag}</p>
+				<p
+					className="mt-3 text-sm text-blue-600 cursor-pointer"
+					onClick={() => handleTagClicked && handleTagClicked(post.tag)}
+				>
+					#{post.tag}
+				</p>
 			</div>
 			{post.creator._id === session?.user?.id &&
 				pathname === `/profile/${session?.user?.id}` && (

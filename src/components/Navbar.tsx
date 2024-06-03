@@ -78,7 +78,7 @@ const Navbar = () => {
 									className="outline_btn"
 									onClick={() => signIn(provider.id)}
 								>
-									{`Sign in with ${provider?.name}`}
+									{'Sign in'}
 								</button>
 							))}
 					</>
@@ -125,7 +125,7 @@ const Navbar = () => {
 									className="outline_btn"
 									onClick={() => signIn(provider.id)}
 								>
-									{`Sign in with ${provider?.name}`}
+									{'Sign in'}
 								</button>
 							))}
 					</>

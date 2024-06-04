@@ -1,12 +1,14 @@
 'use client';
 import { PostProps } from '@/utils/types';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import tick from '../../public/assets/icons/tick.svg';
 import copy from '../../public/assets/icons/copy.svg';
 import { useSession } from 'next-auth/react';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { ThemeContext } from '../../context/ThemeContext';
+import { ThemeContextType } from '../../types/theme';
 
 interface Props {
 	post: PostProps;
@@ -18,6 +20,7 @@ const PromptCard = ({ post, handleTagClicked }: Props) => {
 	const { data: session }: any = useSession();
 	const pathname = usePathname();
 	const router = useRouter();
+	const { mode } = useContext(ThemeContext) as ThemeContextType;
 
 	const handleCopy = () => {
 		setCopied(post?.prompt);
@@ -46,7 +49,11 @@ const PromptCard = ({ post, handleTagClicked }: Props) => {
 	};
 
 	return (
-		<div className="relative shadow-md bg-white p-5">
+		<div
+			className={`relative rounded-md ${
+				mode === 'light' ? 'bg-white' : 'bg-[#111]'
+			} shadow-md p-5`}
+		>
 			{/* <p className="absolute -right-16 top-20 -rotate-90	 text-xs text-gray-400">
 				{post._id}
 			</p> */}
@@ -62,10 +69,14 @@ const PromptCard = ({ post, handleTagClicked }: Props) => {
 						height={35}
 					/>
 					<div>
-						<h3 className="font-satoshi text-gray-900 font-semibold">
+						<h3
+							className={`font-satoshi font-semibold ${
+								mode === 'light' ? 'text-gray-900' : 'text-gray-100'
+							}`}
+						>
 							{post?.creator?.name}
 						</h3>
-						<p className="font-inter text-sm text-gray-400">
+						<p className={'font-inter text-sm text-gray-400'}>
 							@{post?.creator?.username}
 						</p>
 					</div>
@@ -81,7 +92,11 @@ const PromptCard = ({ post, handleTagClicked }: Props) => {
 				</div>
 			</div>
 			<div className="">
-				<p className="mt-5 text-sm text-gray-600">
+				<p
+					className={`mt-5 text-sm ${
+						mode === 'light' ? 'text-gray-600' : 'text-gray-200'
+					}`}
+				>
 					{post.prompt.length > 90
 						? `${post.prompt.substring(0, 90)}...`
 						: post.prompt}

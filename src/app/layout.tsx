@@ -2,6 +2,7 @@ import '@/styles/globals.css';
 import Navbar from '@/components/Navbar';
 import Provider from '@/components/Provider';
 import { Metadata } from 'next';
+import { ThemeProvider } from '../../context/ThemeContext';
 
 export const metadata: Metadata = {
 	title: 'Promptopia',
@@ -16,16 +17,18 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body>
-				<Provider>
-					<div className="main">
-						<div className="gradient" />
-					</div>
+				<ThemeProvider>
+					<Provider>
+						<div className="main">
+							<div className="gradient" />
+						</div>
 
-					<main className="app">
-						<Navbar />
-						{children}
-					</main>
-				</Provider>
+						<main className="app">
+							<Navbar />
+							{children}
+						</main>
+					</Provider>
+				</ThemeProvider>
 			</body>
 		</html>
 	);

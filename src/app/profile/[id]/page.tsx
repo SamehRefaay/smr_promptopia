@@ -1,5 +1,4 @@
 'use client';
-
 import ProfilePrompts from '@/components/ProfilePrompts';
 import ProfileInfo from '@/components/ProfileInfo';
 import { useEffect, useState } from 'react';

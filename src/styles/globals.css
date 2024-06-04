@@ -7,7 +7,6 @@
 /* 
   Note: The styles for this gradient grid background is heavily inspired by the creator of this amazing site (https://dub.sh) – all credits go to them! 
 */
-
 .main {
 	width: 100vw;
 	min-height: 100vh;
@@ -19,7 +18,6 @@
 }
 
 .main:before {
-	background: radial-gradient(circle, rgba(2, 0, 36, 0) 0, #fafafa 100%);
 	position: absolute;
 	content: '';
 	z-index: 2;
@@ -28,9 +26,10 @@
 	top: 0;
 }
 
-/* .main:after {
+.main:after {
 	content: '';
-	background-image: url('./public/assets/images/grid.svg');
+	/* background-image: url('https://img.freepik.com/free-photo/aesthetic-minimal-white-grid-pattern-wallpaper_53876-96916.jpg?w=740&t=st=1717539507~exp=1717540107~hmac=2aa0cc1b3194c740c0855e8661467e1b8671c4248d49d627db898ec9801ea823'); */
+	background-image: url('https://img.freepik.com/free-vector/flat-design-grid-background_23-2150525345.jpg?w=740&t=st=1717539627~exp=1717540227~hmac=6015059fc67b3430dced253efaed3b64f4d27290320068e7f3d74129dcf9de8a');
 	z-index: 1;
 	position: absolute;
 	width: 100%;
@@ -38,7 +37,18 @@
 	top: 0;
 	opacity: 0.4;
 	filter: invert(1);
-} */
+}
+
+.theme {
+	transition: 1s all ease;
+}
+
+.light .main:before {
+	background: radial-gradient(circle, rgba(2, 0, 36, 0) 0, #fafafa 100%);
+}
+.dark .main:before {
+	background: radial-gradient(circle, rgba(2, 0, 36, 0) 0, #111 100%);
+}
 
 .gradient {
 	height: fit-content;
@@ -102,7 +112,7 @@
 }
 
 .desc {
-	@apply mt-5 text-lg text-gray-600 sm:text-xl max-w-2xl;
+	@apply mt-5 text-lg text-gray-800 sm:text-xl max-w-2xl;
 }
 
 .search_input {
@@ -137,7 +147,7 @@
 
 /* Nav Component */
 .logo_text {
-	@apply max-sm:hidden font-satoshi font-semibold text-lg text-black tracking-wide;
+	@apply max-sm:hidden font-satoshi font-semibold text-lg tracking-wide;
 }
 
 .dropdown {

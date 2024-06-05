@@ -5,37 +5,30 @@ import { useContext, useEffect, useState } from 'react';
 import { clearTimeout, setTimeout } from 'timers';
 import { ThemeContext } from '../../context/ThemeContext';
 import { ThemeContextType } from '../../types/theme';
+import useSWR from 'swr';
+import { notFound } from 'next/navigation';
+import FeedSkeleton from './FeedSkeleton';
 
 const Feed = () => {
-	const [allPosts, setAllPosts] = useState<PostProps[]>([]);
 	const [searchText, setSearchText] = useState('');
 	const [searchTimeout, setSearchTimeout] = useState<any>();
 	const [searchedResult, setSearchedResult] = useState<PostProps[]>([]);
 	const { mode } = useContext(ThemeContext) as ThemeContextType;
 
-	const fetchPosts = async () => {
-		try {
-			const response = await fetch(`/api/prompt`, {
-				cache: 'no-store',
-			});
-			if (!response.ok) {
-				throw new Error('Failed to fetch data');
-			}
-			const data = await response.json();
-			setAllPosts(data);
-		} catch (error) {
-			console.log(error);
-		}
-	};
-	useEffect(() => {
-		fetchPosts();
-	}, []);
+	const fetcher = (...args: Parameters<typeof fetch>) =>
+		fetch(...args).then(res => res.json());
+
+	const { data, error, isLoading } = useSWR('/api/prompt', fetcher);
+
+	if (error) return notFound();
+
+	if (isLoading) return <FeedSkeleton mode={mode} search={true} items={6} />;
 
 	const filterPosts = (searchText: string) => {
 		const regex = new RegExp(searchText, 'i');
 
-		const filteredPosts: PostProps[] = allPosts.filter(
-			item =>
+		const filteredPosts: PostProps[] = data.filter(
+			(item: PostProps) =>
 				regex.test(item?.creator?.username) ||
 				regex.test(item?.prompt) ||
 				regex.test(item?.tag)
@@ -71,9 +64,7 @@ const Feed = () => {
 					type="text"
 					placeholder="Search for tag or username"
 					className={`${
-						mode === 'light'
-							? 'search_input feed mt-10'
-							: 'search_input_dark feed'
+						mode === 'light' ? 'search_input feed' : 'search_input_dark feed'
 					}`}
 					value={searchText}
 					onChange={handleSearch}
@@ -89,7 +80,7 @@ const Feed = () => {
 								handleTagClicked={handleTagClicked}
 							/>
 					  ))
-					: allPosts.map(post => (
+					: data.map((post: PostProps) => (
 							<PromptCard
 								key={post._id}
 								post={post}

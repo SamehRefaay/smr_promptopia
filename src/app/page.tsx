@@ -1,6 +1,4 @@
 import Feed from '@/components/Feed';
-import { Suspense } from 'react';
-import FeedSkeleton from '@/components/FeedSkeleton';
 
 export default function Home() {
 	return (
@@ -13,9 +11,8 @@ export default function Home() {
 				Promptopia is an open-source AI prompting tool for modern world to
 				discover, create and share creative prompts
 			</p>
-			<Suspense fallback={<FeedSkeleton items={6} />}>
-				<Feed />
-			</Suspense>
+
+			<Feed />
 		</section>
 	);
 }

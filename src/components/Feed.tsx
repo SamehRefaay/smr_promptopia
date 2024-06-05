@@ -1,14 +1,17 @@
 'use client';
 import PromptCard from './PromptCard';
 import { PostProps } from '@/utils/types';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { clearTimeout, setTimeout } from 'timers';
+import { ThemeContext } from '../../context/ThemeContext';
+import { ThemeContextType } from '../../types/theme';
 
 const Feed = () => {
 	const [allPosts, setAllPosts] = useState<PostProps[]>([]);
 	const [searchText, setSearchText] = useState('');
 	const [searchTimeout, setSearchTimeout] = useState<any>();
 	const [searchedResult, setSearchedResult] = useState<PostProps[]>([]);
+	const { mode } = useContext(ThemeContext) as ThemeContextType;
 
 	const fetchPosts = async () => {
 		try {
@@ -67,7 +70,11 @@ const Feed = () => {
 				<input
 					type="text"
 					placeholder="Search for tag or username"
-					className="search_input feed mt-10"
+					className={`${
+						mode === 'light'
+							? 'search_input feed mt-10'
+							: 'search_input_dark feed'
+					}`}
 					value={searchText}
 					onChange={handleSearch}
 					required

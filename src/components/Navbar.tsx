@@ -92,7 +92,9 @@ const Navbar = () => {
 									<button
 										key={provider?.name}
 										type="button"
-										className="outline_btn"
+										className={`${
+											mode === 'light' ? 'outline_btn' : 'outline_btn_orange'
+										}`}
 										onClick={() => signIn(provider.id)}
 									>
 										{'Sign in'}

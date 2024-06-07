@@ -6,7 +6,7 @@ import GoogleProvider from 'next-auth/providers/google';
 import bcrypt from 'bcrypt';
 import { AuthOptions } from 'next-auth';
 
-export const authOptions: AuthOptions = {
+const authOptions: AuthOptions = {
 	pages: {
 		signIn: '/dashboard/login',
 	},

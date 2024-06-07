@@ -4,7 +4,7 @@ import FormButton from '@/components/FormButton';
 import { signIn, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { FaGithub } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 
@@ -117,4 +117,10 @@ const LoginPage = () => {
 	);
 };
 
-export default LoginPage;
+export default function SignInPage() {
+	return (
+		<Suspense fallback={'Loading...'}>
+			<LoginPage />
+		</Suspense>
+	);
+}

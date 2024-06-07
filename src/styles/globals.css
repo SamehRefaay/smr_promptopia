@@ -122,6 +122,10 @@
 	@apply block w-full rounded-md border border-gray-200 bg-white py-2.5 font-satoshi pl-5 pr-12 text-sm shadow-lg font-medium focus:border-black focus:outline-none focus:ring-0;
 }
 
+.f_input {
+	@apply block mt-4 w-full rounded-md border border-gray-300 bg-white py-2.5 font-satoshi pl-5 pr-12 text-sm font-medium focus:border-blue-500 focus:outline-none focus:ring-0;
+}
+
 .search_input_dark {
 	@apply block w-full rounded-md border border-gray-900 bg-[#111] py-2.5 font-satoshi pl-5 pr-12 text-sm shadow-lg font-medium focus:border-white focus:outline-none focus:ring-0 text-gray-200;
 }

@@ -2,7 +2,6 @@
 import { PostProps } from '@/utils/types';
 import Link from 'next/link';
 import PromptCard from './PromptCard';
-
 import useSWR from 'swr';
 import { notFound } from 'next/navigation';
 import FeedSkeleton from '@/components/FeedSkeleton';
@@ -41,8 +40,8 @@ const ProfilePrompts = ({ userId }: Props) => {
 					))}
 				</div>
 			) : (
-				<p className="text-sm text-gray-400 font-inter font-medium">
-					Sorry you do not have any prompt.{' '}
+				<p className="text-base min-h-[200px] flex-center gap-2 text-gray-800 font-inter font-medium">
+					<p>Sorry you do not have any prompt.</p>
 					<Link href="/create-prompt">
 						<span className="blue_gradient">create one</span> now.
 					</Link>

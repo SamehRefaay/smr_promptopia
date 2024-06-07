@@ -76,31 +76,42 @@ const Navbar = () => {
 								Sign out
 							</button>
 							<Link href={`/profile/${session.user.id}`}>
-								<Image
-									src={session?.user?.image!}
-									alt="profile"
-									width={37}
-									height={37}
-									className="object-contain rounded-full"
-								/>
+								{session.user.image ? (
+									<Image
+										src={session?.user?.image!}
+										alt="profile"
+										width={36}
+										height={36}
+										className="object-contain rounded-full"
+									/>
+								) : (
+									<div className="w-9 h-9 bg-blue-600 rounded-full text-white flex-center text-xl">
+										{session?.user?.email[0]}
+									</div>
+								)}
 							</Link>
 						</div>
 					) : (
-						<>
-							{providers &&
-								Object.values(providers).map(provider => (
-									<button
-										key={provider?.name}
-										type="button"
-										className={`${
-											mode === 'light' ? 'outline_btn' : 'outline_btn_orange'
-										}`}
-										onClick={() => signIn(provider.id)}
-									>
-										{'Sign in'}
-									</button>
-								))}
-						</>
+						<div className="flex gap-4 justify-center items-center">
+							<Link
+								href={'/dashboard/login'}
+								type="button"
+								className={`${
+									mode === 'light' ? 'outline_btn' : 'outline_btn_orange'
+								}`}
+							>
+								Sign in
+							</Link>
+							<Link
+								href={'/dashboard/register'}
+								type="button"
+								className={`${
+									mode === 'light' ? 'outline_btn' : 'outline_btn_orange'
+								}`}
+							>
+								Sign up
+							</Link>
+						</div>
 					)}
 				</div>
 			</div>

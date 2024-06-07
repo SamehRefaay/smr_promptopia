@@ -1,9 +1,49 @@
 import User from '@/models/user';
 import { connectToDB } from '@/utils/database';
 import NextAuth from 'next-auth/next';
+import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
-const handler = NextAuth({
+import bcrypt from 'bcrypt';
+import { AuthOptions } from 'next-auth';
+
+export const authOptions: AuthOptions = {
+	pages: {
+		signIn: '/dashboard/login',
+	},
 	providers: [
+		CredentialsProvider({
+			name: 'Credentials',
+			credentials: {
+				email: { label: 'Email', type: 'text', placeholder: 'Email' },
+				password: { label: 'Password', type: 'password' },
+			},
+			async authorize(credentials, req) {
+				// check if the user exist
+				await connectToDB();
+				try {
+					const user = await User.findOne({
+						email: credentials?.email,
+					});
+
+					if (user && credentials) {
+						const isPasswordCorrect = await bcrypt.compare(
+							credentials.password,
+							user.password
+						);
+
+						if (isPasswordCorrect) {
+							return user;
+						} else {
+							throw new Error('Wrong Credentials!');
+						}
+					} else {
+						throw new Error('User not found!');
+					}
+				} catch (err: any) {
+					throw new Error(err.message);
+				}
+			},
+		}),
 		GoogleProvider({
 			clientId: process.env.GOOGLE_CLIENT_ID!,
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
@@ -19,29 +59,9 @@ const handler = NextAuth({
 
 			return session;
 		},
-		async signIn({ profile }: any) {
-			try {
-				await connectToDB();
-
-				const userExists = await User.findOne({
-					email: profile?.email,
-				});
-
-				if (!userExists) {
-					await User.create({
-						email: profile.email,
-						username: profile.email?.split('@')[0],
-						name: profile.name,
-						image: profile.picture,
-					});
-				}
-				return true;
-			} catch (error) {
-				console.log(error);
-				return false;
-			}
-		},
 	},
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

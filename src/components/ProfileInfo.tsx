@@ -1,7 +1,7 @@
 'use client';
 import { UserProps } from '@/utils/types';
 import Image from 'next/image';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { ThemeContext } from '../../context/ThemeContext';
 import { ThemeContextType } from '../../types/theme';
 import useSWR from 'swr';
@@ -35,13 +35,19 @@ const ProfileInfo = ({ userId }: { userId: string }) => {
 				}  grid place-content-center rounded-md`}
 			>
 				<div className="text-center">
-					<Image
-						className="rounded-full mx-auto"
-						src={data?.image}
-						alt="profile image"
-						width={200}
-						height={200}
-					/>
+					{data?.image ? (
+						<Image
+							className="rounded-full mx-auto"
+							src={data?.image}
+							alt="profile image"
+							width={200}
+							height={200}
+						/>
+					) : (
+						<div className="w-[200px] h-[200px] mx-auto bg-blue-600 rounded-full text-white flex-center text-7xl font-bold">
+							{data?.email[0]}
+						</div>
+					)}
 					<h1
 						className={`text-xl ${
 							mode === 'light' ? 'text-gray-900' : 'text-gray-100'

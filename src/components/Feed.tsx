@@ -8,8 +8,10 @@ import { ThemeContextType } from '../../types/theme';
 import useSWR from 'swr';
 import { notFound } from 'next/navigation';
 import FeedSkeleton from './FeedSkeleton';
+import Link from 'next/link';
 
 const Feed = () => {
+	const [allPrompts, setAllPrompts] = useState<PostProps[]>([]);
 	const [searchText, setSearchText] = useState('');
 	const [searchTimeout, setSearchTimeout] = useState<any>();
 	const [searchedResult, setSearchedResult] = useState<PostProps[]>([]);
@@ -18,7 +20,14 @@ const Feed = () => {
 	const fetcher = (...args: Parameters<typeof fetch>) =>
 		fetch(...args).then(res => res.json());
 
-	const { data, error, isLoading } = useSWR('/api/prompt', fetcher);
+	const {
+		data,
+		error,
+		isLoading,
+	}: { data: PostProps[]; error: any; isLoading: boolean } = useSWR(
+		'/api/prompt',
+		fetcher
+	);
 
 	if (error) return notFound();
 
@@ -72,21 +81,31 @@ const Feed = () => {
 				/>
 			</form>
 			<div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-				{searchText
-					? searchedResult.map(post => (
-							<PromptCard
-								key={post._id}
-								post={post}
-								handleTagClicked={handleTagClicked}
-							/>
-					  ))
-					: data.map((post: PostProps) => (
-							<PromptCard
-								key={post._id}
-								post={post}
-								handleTagClicked={handleTagClicked}
-							/>
-					  ))}
+				{searchText ? (
+					searchedResult.map(post => (
+						<PromptCard
+							key={post._id}
+							post={post}
+							handleTagClicked={handleTagClicked}
+						/>
+					))
+				) : data && data.length > 0 ? (
+					data.map((post: PostProps) => (
+						<PromptCard
+							key={post._id}
+							post={post}
+							handleTagClicked={handleTagClicked}
+						/>
+					))
+				) : (
+					<div className="w-full flex-center">
+						Some thing went wrong.{' '}
+						<Link href="/" className="underline">
+							try again
+						</Link>{' '}
+						later
+					</div>
+				)}
 			</div>
 		</section>
 	);
